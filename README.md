@@ -14,6 +14,11 @@ A domain model centric approach to angular template-driven validation Learn more
 
 ## Why tdv
 ## Install
+#### [NPM](http://www.npmjs.com)
+```bash
+npm install ng-tdv --save
+```
+
 ## Getting started
 ## Constraints JSON
 ## Built-In Validators
