@@ -1,14 +1,44 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { LayoutHeaderComponent } from './layout/header.component';
+import { LayoutSidenavComponent } from './layout/sidenav-component';
+import { SimpleFormComponent } from './examples/simple-form/simple-form.component';
+import { MasterChildFormComponent } from './examples/master-child-form/master-child-form.component';
+import { FormsModule } from '@angular/forms';
+import { NgTdvDirective, NgTdvClickDirective } from 'projects/ng-tdv/src/public-api';
+
+export const appRoutes: Routes = [
+  {
+      path: '',
+      redirectTo: '/simple-form',
+      pathMatch: 'full'
+  },
+  { path: 'simple-form', component: SimpleFormComponent, data: { title: 'Simple Example', fileName: 'simple-form.component.ts' } },
+  { path: 'master-child-form', component: MasterChildFormComponent, data: { title: 'Master Child Example', fileName: 'simple-form.component.ts' } },
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LayoutHeaderComponent,
+    LayoutSidenavComponent,
+    SimpleFormComponent,
+    MasterChildFormComponent,
+    NgTdvDirective,
+    NgTdvClickDirective
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    RouterModule.forRoot(
+      appRoutes,
+      {
+          useHash: true
+      }
+  )
   ],
   providers: [],
   bootstrap: [AppComponent]
