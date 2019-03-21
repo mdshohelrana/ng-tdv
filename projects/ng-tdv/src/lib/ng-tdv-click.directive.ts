@@ -45,8 +45,8 @@ export class NgTdvClickDirective {
     }
     // console.log(maps);
     for (let index = 0; index < maps.length; index++) {
-      if(maps[index].hasOwnProperty("sfValidator")) {
-        const _result_ = maps[index]['sfValidator'].callValidation();
+      if(maps[index].hasOwnProperty("ngTdvValidator")) {
+        const _result_ = maps[index]['ngTdvValidator'].callValidation();
         if (!_result_.isValid) {
           this.validationResult["validationSummaryMsgs"].push(_result_);
           this.validationResult.isValid = false;
@@ -102,7 +102,7 @@ export class NgTdvClickDirective {
       maps = this.getContols(this._ngForm);
     }
     for (let index = 0; index < maps.length; index++) {
-      maps[index]['sfValidator'].resetValidation();
+      maps[index]['ngTdvValidator'].resetValidation();
     }
     return this.validationResult;
   }

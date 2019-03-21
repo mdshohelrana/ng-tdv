@@ -28,7 +28,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
     public _renderer: Renderer2,
     public _modelObj: NgModel
   ) {
-    this._modelObj.control['sfValidator'] = this;
+    this._modelObj.control['ngTdvValidator'] = this;
     this._div = this._renderer.createElement("div");
     this._tooltipDiv = this._renderer.createElement("div");
   }
@@ -67,7 +67,6 @@ export class NgTdvDirective implements OnChanges, OnInit {
   }
 
   public callValidation(): any {
-    debugger;
     this._errorText = "";
     this._valid = true;
     const _element_ = this._el.nativeElement;
@@ -287,7 +286,6 @@ export class NgTdvDirective implements OnChanges, OnInit {
   }
 
   public customValidator(fn:Function) {
-    debugger;
     return fn();
   }
 
