@@ -10,6 +10,7 @@ This is a domain model centric approach to angular template-driven validation Le
 - [Demo](#demo)
 - [Versions](#versions)
 - [Why ng-tdv](#why-ng-tdv)
+- [Features](#features)
 - [Installation](#installation)
 - [Getting started](#getting-started)
 - [Constraints JSON](#constraints-json)
@@ -43,6 +44,11 @@ the constraints per type and field, tell ng-tdv that a form (or just a part of t
 - reusable validation constraints for your models -> easier to maintain
 - possibility to generate the constraints from the models you already have in your back-end 
 - an easy way to display validation messages per form field
+
+## Features
+
+- [x] 
+- [x] 
 
 ## Installation
 
