@@ -1,27 +1,41 @@
-# NgTdv
+# ng-tdv - Angular powered validation widgets
+A domain model centric approach to angular template-driven validation Learn more on the [ng-tdv website](https://github.com/mdshohelrana/ng-tdv).
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+- [Why ng-tdv](#why-ng-tdv)
+- [Install](#install)
+- [Getting started](#getting-started)
+- [Constraints JSON](#constraints-json)
+- [Built-In Validators](#built-in-validators)
+- [Develop](#develop)
+- [Support](#support)
+- [License](#license)
+- [Credits](#credits)
+- [Change logs](#change-logs)
 
-## Code scaffolding
+## Why ng-tdv
+The domain model centric validation is more important to manage a large scale application that's why we have wanted to create such type validation that will help you terrible. Characterizing the validation rules on each every field with the default Angular validators contaminates the markup with your business rules and makes them quite difficult to keep up. This is particularly valid for bigger applications, where you may have repeating models like customers or products in different forms, but require slightly different markup and therefore can't simply reuse a current structure. What's far and away more terrible: Usually you already have the validation logic in your back-end, but there is no easy way to share this information with the UI.
 
-Run `ng generate component component-name --project ng-tdv` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ng-tdv`.
-> Note: Don't forget to add `--project ng-tdv` or else it will be added to the default project in your `angular.json` file. 
+ng-tdv solves these issues by extracting the validation constraints from the markup to a JSON structure. You define
+the constraints per type and field, tell ng-tdv that a form (or just a part of the form) belongs to a certain type and
+ng-tdv automatically validates the form fields.
 
-## Build
+ng-tdv gives you the following advantages:
+- cleaner form markup
+- reusable validation constraints for your models -> easier to maintain
+- possibility to generate the constraints from the models you already have in your back-end 
+- an easy way to display validation messages per form field
 
-Run `ng build ng-tdv` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Install
+#### [NPM](https://www.npmjs.com/package/ng-tdv)
+```bash
+npm install ng-tdv --save
+```
 
-## Publishing
-
-After building your library with `ng build ng-tdv`, go to the dist folder `cd dist/ng-tdv` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ng-tdv` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Contributing to the project
-Please check the CONTRIBUTING.md doc for contribution guidelines.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Getting started
+## Constraints JSON
+## Built-In Validators
+## Develop
+## Support
+## License
+## Credits
+## Change logs
