@@ -9,7 +9,7 @@ This is a domain model centric approach to angular template-driven validation Le
 
 - [Demo](#demo)
 - [Why ng-tdv](#why-ng-tdv)
-- [Install](#install)
+- [Installation](#installation)
 - [Getting started](#getting-started)
 - [Constraints JSON](#constraints-json)
 - [Built-In Validators](#built-in-validators)
@@ -37,7 +37,7 @@ the constraints per type and field, tell ng-tdv that a form (or just a part of t
 - possibility to generate the constraints from the models you already have in your back-end 
 - an easy way to display validation messages per form field
 
-## Install
+## Installation
 
 You need to have an Angular project with the supported Angular version. We strongly recommend using [Angular CLI](https://cli.angular.io) for this.
 
