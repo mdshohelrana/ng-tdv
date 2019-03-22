@@ -8,6 +8,7 @@ This is a domain model centric approach to angular template-driven validation Le
 ## Table of Contents
 
 - [Demo](#demo)
+- [Versions](#versions)
 - [Why ng-tdv](#why-ng-tdv)
 - [Installation](#installation)
 - [Getting started](#getting-started)
@@ -22,6 +23,12 @@ This is a domain model centric approach to angular template-driven validation Le
 ## Demo
 
 View all the ng-tdv directives in action at https://stackblitz.com/edit/ng-tdv
+
+## Versions
+
+| Angular| ng-tdv|
+| ------|:------:| 
+| v7.x  | v0.x |
 
 ## Why ng-tdv
 
