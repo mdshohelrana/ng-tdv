@@ -39,6 +39,8 @@ the constraints per type and field, tell ng-tdv that a form (or just a part of t
 
 ## Install
 
+You need to have an Angular project with the supported Angular version. We strongly recommend using [Angular CLI](https://cli.angular.io) for this.
+
 #### [NPM](https://www.npmjs.com/package/ng-tdv)
 ```bash
 npm install ng-tdv --save
