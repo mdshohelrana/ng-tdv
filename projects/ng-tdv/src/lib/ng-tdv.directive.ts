@@ -72,8 +72,8 @@ export class NgTdvDirective implements OnChanges, OnInit {
     const _element_ = this._el.nativeElement;
     if (!this._isUndefinedOrNull()) {
       if (this._value !== undefined && this._value !== null && this._value.toString().length > 0) {
-        if (this.isEmail(_element_)) {
-          this._valid = (this._valid && this.validateEmail(this._value));
+        if (this.isEmail(_element_) || this._option.hasOwnProperty("email")) {
+          this._valid = (this._valid && this.validateEmail(this._option["email"]));
         }
         if (this._option.hasOwnProperty("size")) {
           this._valid = (this._valid && this.sizeValidator(this._option["size"]));
@@ -88,9 +88,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
       else if (this._option.hasOwnProperty("required")) {
         this._valid = (this._valid && this.requiredValidator(this._option["required"]));
       }
-      
       if (this._option.hasOwnProperty("custom")) {
-        this._valid = (this._valid && this.customValidator(this._option["custom"]));
       }
 
       this.setValidity();
@@ -187,7 +185,6 @@ export class NgTdvDirective implements OnChanges, OnInit {
 
 
   public _getTime() { }
-  public customValidatior() { }
   public setResult() { }
   public callGridValidationGrps() { }
 
@@ -214,13 +211,13 @@ export class NgTdvDirective implements OnChanges, OnInit {
     return _result_
   }
 
-  public validateEmail(_email_) {
+  public validateEmail(_emailOptions:any={}) {
     let _result_: boolean;
     var re = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     var patt = new RegExp(re);
-    _result_ = patt.test(_email_);
+    _result_ = patt.test(this._value);
     if (!_result_) {
-      this._errorText = "Not a valid email";
+      this._errorText = _emailOptions.hasOwnProperty("message") ? _emailOptions.message : "Not a valid email";
     }
     return _result_;
   }
@@ -285,8 +282,13 @@ export class NgTdvDirective implements OnChanges, OnInit {
     return patt.test(this._value);
   }
 
-  public customValidator(fn:Function) {
-    return fn();
+  public customValidator(_validationOptions) {
+    let fn:Function = _validationOptions.method;
+    let _result_ = fn();
+    if (!_result_) {
+      this._errorText = _validationOptions.hasOwnProperty("message") ? _validationOptions.message : this._defaultErrorText;
+    }
+    return _result_;
   }
 
 

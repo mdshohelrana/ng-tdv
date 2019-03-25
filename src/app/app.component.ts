@@ -46,7 +46,7 @@ export class AppComponent {
           .subscribe((event) => {
               this.title = event['title'];
               this.titleService.setTitle(this.title);
-              this.exampleSourceUrl = `https://github.com/mdshohelrana/ng-tdv/tree/master/src/app/examples/${event['fileName']}`;
+              this.exampleSourceUrl = `https://github.com/mdshohelrana/ng-tdv/tree/master/src/app/examples/${event['folderName']}/${event['fileName']}`;
           });
   }
 
