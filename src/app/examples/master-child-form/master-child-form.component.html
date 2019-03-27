@@ -299,13 +299,18 @@
             </tr>
           </thead>
           <tbody ngModelGroup="productGroup">
-              <ng-container *ngFor="let product of productList; let i=index; let isLast=last; trackBy:i; ">
+              <ng-container *ngFor="let product of cartList; let i=index; let isLast=last; trackBy:i; ">
                   <tr ngModelGroup="productGroup-{{i}}">
                     <td class="p-0 position-relative text-center">{{i+1}}</td>
-                    <td class="p-0 position-relative"><input type="text" class="form-control" name="productName-{{i}}" ng-tdv="productName" [(ngModel)]="product.productName" value=""></td>
-                    <td class="p-0 position-relative"><input type="text"  class="text-right form-control" name="productPrice-{{i}}" ng-tdv="productPrice" [(ngModel)]="product.productPrice" value=""></td>
-                    <td class="p-0 position-relative"><input type="text" class="form-control text-right" name="productQuantity-{{i}}" ng-tdv="productQuantity" [(ngModel)]="product.productQuantity" value=""></td>
-                    <td class="p-0 position-relative"><input type="text" class="text-right form-control" name="total-{{i}}" ng-tdv="total" [(ngModel)]="product.total" value=""></td>
+                    <td class="p-0 position-relative">
+                      <select (change)="onChangeProduct(product)" class="form-control" name="productId-{{i}}" ng-tdv="productId" [(ngModel)]="product.productId">
+                        <option [value]="null">Select</option>
+                        <option *ngFor="let item of productList" [value]="item.id">{{item.name}}</option>
+                      </select>
+                    </td>
+                    <td class="p-0 position-relative"><input type="text"  class="text-right form-control" name="productPrice-{{i}}" ng-tdv="productPrice" [(ngModel)]="product.productPrice"></td>
+                    <td class="p-0 position-relative"><input type="text" class="form-control text-right" name="productQuantity-{{i}}" ng-tdv="productQuantity" [(ngModel)]="product.productQuantity"></td>
+                    <td class="p-0 position-relative"><input type="text" class="text-right form-control" name="total-{{i}}" value="{{product.productPrice*product.productQuantity | number}}" [readonly]="true"></td>
                     <td class="text-center p-0">
                       <button style="padding:1px 5px;" type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                       <button style="padding:1px 5px;" *ngIf="isLast" type="button" class="btn btn-success ml-1 btn-sm" group="productGroup-{{i}}" (ng-tdf-click)="addNewProduct($event)"><i class="fa fa-plus"></i></button>

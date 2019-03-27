@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from './Product.model';
-
+import { Product, products } from './Product.model';
 @Component({
   selector: 'demo-master-child-form',
   templateUrl: './master-child-form.component.html',
@@ -8,15 +7,11 @@ import { Product } from './Product.model';
 })
 export class MasterChildFormComponent implements OnInit {
 
-  private productList: Product[] = new Array();
+  public cartList: Product[] = new Array();
+  public productList = products;
 
-  private customerOptions: any = {
+  public customerOptions: any = {
     "name": {
-      'size': {
-        'min': 3,
-        'max': 20,
-        'message': 'Customer Name is required to be between 3 and 20 characters.'
-      },
       "required": {
         "message": "Customer Name required",
       },
@@ -45,9 +40,9 @@ export class MasterChildFormComponent implements OnInit {
         'message': 'Country should between Angola & Bhutan.'
       },
     },
-    "productName": {
+    "productId": {
       "required": {
-        "message": "Product Name required",
+        "message": "Product required",
       },
     },
     "productPrice": {
@@ -56,16 +51,8 @@ export class MasterChildFormComponent implements OnInit {
       },
     },
     "productQuantity": {
-      "custom": ()=> {
-        return true;
-      },
       "required": {
         "message": "Product Quantity required",
-      },
-    },
-    "total": {
-      "required": {
-        "message": "total required",
       },
     },
     message: "tooltip"
@@ -76,19 +63,27 @@ export class MasterChildFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  onChangeProduct(product:Product) {
+    const selectedItem = this.productList.find(
+      (item)=> {
+          return item.id==product.productId}
+        );
+    product.productPrice = selectedItem.price;
+  }
+
   addNewProduct(form) {
     console.log(form);
     
     let _validationResult = form.validate();
     if(_validationResult.isValid) {
-      this.productList.push(new Product());
+      this.cartList.push(new Product());
     }
     console.log(_validationResult);
   }
   addProduct(form) {
     let _validationResult = form.validate();
     if(_validationResult.isValid) {
-      this.productList.push(new Product());
+      this.cartList.push(new Product());
     }
     console.log(_validationResult);
   }
