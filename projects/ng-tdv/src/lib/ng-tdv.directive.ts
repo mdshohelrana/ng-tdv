@@ -89,6 +89,8 @@ export class NgTdvDirective implements OnChanges, OnInit {
         this._valid = (this._valid && this.requiredValidator(this._option["required"]));
       }
       if (this._option.hasOwnProperty("custom")) {
+        this._valid = (this._valid && this.customValidator(this._option["custom"]));
+
       }
 
       this.setValidity();
@@ -277,9 +279,14 @@ export class NgTdvDirective implements OnChanges, OnInit {
     return _result_;
   }
 
-  public patternValidator(_pattern_) {
-    var patt = new RegExp(_pattern_);
-    return patt.test(this._value);
+  public patternValidator(_patternOptions) {
+    let _pattern_ = _patternOptions['match']
+    let patt = new RegExp(_pattern_, "g");
+    let _result_ = patt.test(this._value);
+    if (!_result_) {
+      this._errorText = _patternOptions.hasOwnProperty("message") ? _patternOptions.message : "Doesn't match!";
+    }
+    return _result_;
   }
 
   public customValidator(_validationOptions) {

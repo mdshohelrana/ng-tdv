@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+import { PrismModule } from '@ngx-prism/core';
 
 import { AppComponent } from './app.component';
 import { LayoutHeaderComponent } from './layout/header.component';
 import { LayoutSidenavComponent } from './layout/sidenav-component';
 import { SimpleFormComponent } from './examples/simple-form/simple-form.component';
 import { MasterChildFormComponent } from './examples/master-child-form/master-child-form.component';
-import { FormsModule } from '@angular/forms';
 import { NgTdvDirective, NgTdvClickDirective } from 'projects/ng-tdv/src/public-api';
 
 export const appRoutes: Routes = [
@@ -33,6 +35,7 @@ export const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    PrismModule,
     RouterModule.forRoot(
       appRoutes,
       {
