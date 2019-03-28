@@ -69,6 +69,7 @@ export class MasterChildFormComponent implements OnInit {
           return item.id==product.productId}
         );
     product.productPrice = selectedItem.price;
+    product.productQuantity = 1;
   }
 
   addNewProduct(form) {
