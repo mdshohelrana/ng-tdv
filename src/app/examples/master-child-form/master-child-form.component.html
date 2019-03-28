@@ -63,7 +63,7 @@
                     </td>
                     <td class="p-0 position-relative"><input type="text"  class="text-right form-control" name="productPrice-{{i}}" ng-tdv="productPrice" [(ngModel)]="product.productPrice"></td>
                     <td class="p-0 position-relative"><input type="text" class="form-control text-right" name="productQuantity-{{i}}" ng-tdv="productQuantity" [(ngModel)]="product.productQuantity"></td>
-                    <td class="p-0 position-relative"><input type="text" class="text-right form-control" name="total-{{i}}" value="{{product.productPrice*product.productQuantity | number}}" [readonly]="true"></td>
+                    <td class="p-0 position-relative"><input type="text" class="text-right form-control" name="total-{{i}}" value="{{product.total | number}}" [readonly]="true"></td>
                     <td class="text-center p-0">
                       <button style="padding:1px 5px;" type="button" class="btn btn-danger btn-sm" (click)="removeProduct(index)"><i class="fa fa-times"></i></button>
                       <button style="padding:1px 5px;" *ngIf="isLast" type="button" class="btn btn-success ml-1 btn-sm" group="productGroup-{{i}}" (ng-tdv-click)="addNewProduct($event)"><i class="fa fa-plus"></i></button>
