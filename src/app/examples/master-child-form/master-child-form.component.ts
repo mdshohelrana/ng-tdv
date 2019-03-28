@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product, products } from './Product.model';
+import { Product, products, countries } from './Product.model';
 @Component({
   selector: 'demo-master-child-form',
   templateUrl: './master-child-form.component.html',
@@ -9,50 +9,59 @@ export class MasterChildFormComponent implements OnInit {
 
   public cartList: Product[] = new Array();
   public productList = products;
+  public countryList = countries;
 
   public customerOptions: any = {
-    "name": {
-      "required": {
-        "message": "Customer Name required",
+    name: {
+      required: {
+        message: "Customer Name required",
       },
     },
-    "mobileNumber": {
-      'size': {
-        'min': 11,
-        'max': 11,
-        'message': 'Customer Name is should to be 11 characters.'
+    mobileNumber: {
+      size: {
+        min: 11,
+        max: 11,
+        message: 'Customer Name is should to be 11 characters.'
       },
-      "required": {
-        "message": "Mobile Number required",
-      },
-    },
-    "address": {
-      "required": {
-        "message": "Address required",
+      required: {
+        message: "Mobile Number required",
       },
     },
-    "country": {
-      "required": {
-        "message": "Country required",
-      },
-      'range': {
-        'value': '5,20',
-        'message': 'Country should between Angola & Bhutan.'
+    address: {
+      required: {
+        message: "Address required",
       },
     },
-    "productId": {
-      "required": {
-        "message": "Product required",
+    country: {
+      required: {
+        message: "Country required",
+      },
+      range: {
+        value: '5,20',
+        message: 'Country should between Angola & Bhutan.'
       },
     },
-    "productPrice": {
-      "required": {
-        "message": "Product Price required",
+    productId: {
+      required: {
+        message: "Product required",
       },
     },
-    "productQuantity": {
-      "required": {
-        "message": "Product Quantity required",
+    productPrice: {
+      min: {
+        value: 1,
+        message: 'Product Price required'
+      },
+      required: {
+        message: "Product Price required",
+      },
+    },
+    productQuantity: {
+      min: {
+        value: 1,
+        message: 'Product Quantity required'
+      },
+      required: {
+        message: "Product Quantity required",
       },
     },
     message: "tooltip"
@@ -61,6 +70,7 @@ export class MasterChildFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.cartList.push(new Product());
   }
 
   onChangeProduct(product:Product) {
@@ -70,31 +80,31 @@ export class MasterChildFormComponent implements OnInit {
         );
     product.productPrice = selectedItem.price;
     product.productQuantity = 1;
+    product.total = product.productPrice*product.productQuantity;
   }
 
-  addNewProduct(form) {
-    console.log(form);
-    
+  removeProduct(index) {
+    this.cartList.splice(index, 1);
+  }
+
+  addNewProduct(form) {    
     let _validationResult = form.validate();
     if(_validationResult.isValid) {
       this.cartList.push(new Product());
     }
-    console.log(_validationResult);
   }
+
   addProduct(form) {
     let _validationResult = form.validate();
     if(_validationResult.isValid) {
       this.cartList.push(new Product());
     }
-    console.log(_validationResult);
   }
   saveCustomer(form) {
     let _validationResult = form.validate();
-    console.log(_validationResult);
   }
   resetCustomer(form) {
     let _validationResult = form.reset();
-    console.log(_validationResult);
   }
 
 }

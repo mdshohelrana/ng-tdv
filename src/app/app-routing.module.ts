@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SimpleFormComponent } from './examples/simple-form/simple-form.component';
 import { MasterChildFormComponent } from './examples/master-child-form/master-child-form.component';
-import { CommonModule } from '@angular/common';
 
 
 export const routes: Routes = [{
@@ -15,11 +14,7 @@ export const routes: Routes = [{
 ];
 
 @NgModule({
-  declarations: [
-    SimpleFormComponent
-    , MasterChildFormComponent
-  ],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-      <form #myForm="ngForm" novalidate ng-tdv-option="employeeOptions">
+      <form novalidate ng-tdv-option="employeeOptions">
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="nameField">Name (required)</label>
@@ -46,8 +46,8 @@
             </label>
           </div>
         </div>
-        <button type="submit" [disabled]="!myForm.form.valid" class="btn btn-primary mr-1"  (ng-tdf-click)="onSubmitForm($event)" >Save</button>
-        <button type="button" class="btn btn-warning"  (ng-tdf-click)="onFormReset($event)" >Reset</button>
+        <button type="submit" class="btn btn-primary mr-1"  (ng-tdv-click)="onSubmitForm($event)" >Save</button>
+        <button type="button" class="btn btn-warning"  (ng-tdv-click)="onFormReset($event)" >Reset</button>
       </form>
   </div>
 </div>

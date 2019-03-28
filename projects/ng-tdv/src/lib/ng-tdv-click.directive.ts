@@ -7,14 +7,14 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 const _DEFAULT_RESULT = { isValid: true, validationSummaryMsgs: [] };
 
 @Directive({
-  selector: '[ng-tdf-click]'
+  selector: '[ng-tdv-click]'
 })
 export class NgTdvClickDirective {
 
   @Input('not') excludeText: string;
   @Input('group') groupText: string;
 
-  @Output('ng-tdf-click') _validateEvent: EventEmitter<any> = new EventEmitter();
+  @Output('ng-tdv-click') _validateEvent: EventEmitter<any> = new EventEmitter();
 
 
   private validationResult = _DEFAULT_RESULT;
