@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { appRoutes } from '../app.module';
+import { routes } from '../app-routing.module';
 
 @Component({
     selector: 'layout-sidenav',
@@ -15,7 +15,7 @@ export class LayoutSidenavComponent {
     routes = [];
 
     constructor() {
-        this.routes = appRoutes.filter(route => route.component)
+        this.routes = routes.filter(route => route.component)
             .map(route => ({
                 title: route.data.title,
                 url: `/${route.path}`

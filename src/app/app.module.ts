@@ -11,16 +11,8 @@ import { LayoutSidenavComponent } from './layout/sidenav-component';
 import { SimpleFormComponent } from './examples/simple-form/simple-form.component';
 import { MasterChildFormComponent } from './examples/master-child-form/master-child-form.component';
 import { NgTdvDirective, NgTdvClickDirective } from 'projects/ng-tdv/src/public-api';
+import { AppRoutingModule } from './app-routing.module';
 
-export const appRoutes: Routes = [
-  {
-      path: '',
-      redirectTo: '/simple-form',
-      pathMatch: 'full'
-  },
-  { path: 'simple-form', component: SimpleFormComponent, data: { title: 'Simple Example', fileName: 'simple-form.component.ts', folderName:'simple-form' } },
-  { path: 'master-child-form', component: MasterChildFormComponent, data: { title: 'Master Child Example', fileName: 'simple-form.component.ts', folderName:'master-child-form' } },
-];
 
 @NgModule({
   declarations: [
@@ -36,12 +28,7 @@ export const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     PrismModule,
-    RouterModule.forRoot(
-      appRoutes,
-      {
-          useHash: true
-      }
-  )
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
