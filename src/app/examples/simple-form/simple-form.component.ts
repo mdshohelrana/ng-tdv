@@ -96,67 +96,67 @@ export class SimpleFormComponent implements OnInit {
   }
 
   public optionCode = `public employeeOptions: any = {
-  name: {
-    required: {
-      message: "Name required",
+    name: {
+      required: {
+        message: "Name required",
+      },
     },
-  },
-  email: {
     email: {
-      message: "Not a valid email!"
+      email: {
+        message: "Not a valid email!"
+      },
+      required: {
+        message: "Email required",
+      },
     },
-    required: {
-      message: "Email required",
+    password: {
+      size: {
+        min: 8,
+        message: 'Password at least 8 character'
+      },
+      required: {
+        message: "Password required",
+      },
     },
-  },
-  password: {
-    size: {
-      min: 8,
-      message: 'Password at least 8 character'
+    url: {
+      pattern: {
+        match: "^((http|https)://|github.com)",
+        message: "You must enter your github account!"
+      },
     },
-    required: {
-      message: "Password required",
+    tel: {
+      size: {
+        min: 10,
+        max: 10,
+        message: 'Tel should be 10'
+      },
+      required: {
+        message: "Tel required",
+      },
     },
-  },
-  url: {
-    pattern: {
-      match: "^((http|https)://|github.com)",
-      message: "You must enter your github account!"
+    date: {
+      custom: {
+        method: () => this.isAdult(),
+        message: "You must 18yrs."
+      },
+      required: {
+        message: "Date required",
+      },
     },
-  },
-  tel: {
-    size: {
-      min: 10,
-      max: 10,
-      message: 'Tel should be 10'
+    gender: {
+      required: {
+        message: "Gender required",
+      },
     },
-    required: {
-      message: "Tel required",
+    address: {
+      required: {
+        message: "Address required",
+      },
     },
-  },
-  date: {
-    custom: {
-      method: () => this.isAdult(),
-      message: "You must 18yrs."
-    },
-    required: {
-      message: "Date required",
-    },
-  },
-  gender: {
-    required: {
-      message: "Gender required",
-    },
-  },
-  address: {
-    required: {
-      message: "Address required",
-    },
-  },
-  message: "tooltip"
-}
+    message: "tooltip"
+  }
   `;
-  public valHtml = `<form #myForm="ngForm" novalidate ng-tdv-option="employeeOptions">
+  public valHtml = `<form novalidate ng-tdv-option="employeeOptions">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="nameField">Name (required)</label>
@@ -202,8 +202,8 @@ export class SimpleFormComponent implements OnInit {
       </label>
     </div>
   </div>
-  <button type="submit" [disabled]="!myForm.form.valid" class="btn btn-primary mr-1"  (ng-tdf-click)="onSubmitForm($event)" >Save</button>
-  <button type="button" class="btn btn-warning"  (ng-tdf-click)="onFormReset($event)" >Reset</button>
+  <button type="submit" class="btn btn-primary mr-1"  (ng-tdv-click)="onSubmitForm($event)" >Save</button>
+  <button type="button" class="btn btn-warning"  (ng-tdv-click)="onFormReset($event)" >Reset</button>
 </form>
   `;
 

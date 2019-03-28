@@ -1,5 +1,6 @@
 import { Directive, SimpleChanges, OnChanges, OnInit, Injector, ElementRef, Input, Renderer2, HostListener } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { __values } from 'tslib';
 
 @Directive({
   selector: '[ng-tdv]'
@@ -74,6 +75,9 @@ export class NgTdvDirective implements OnChanges, OnInit {
       if (this._value !== undefined && this._value !== null && this._value.toString().length > 0) {
         if (this.isEmail(_element_) || this._option.hasOwnProperty("email")) {
           this._valid = (this._valid && this.validateEmail(this._option["email"]));
+        }
+        if (this._option.hasOwnProperty("min")) {
+          this._valid = (this._valid && this.minValidator(this._option["min"]));
         }
         if (this._option.hasOwnProperty("size")) {
           this._valid = (this._valid && this.sizeValidator(this._option["size"]));
@@ -205,6 +209,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
     }
     return _result_
   }
+
   public stringMaxLength(_sizeOptions_, _result_) {
     if (_sizeOptions_.hasOwnProperty("max") && (this._value.toString().length > _sizeOptions_["max"])) {
       _result_ = false;
@@ -224,9 +229,18 @@ export class NgTdvDirective implements OnChanges, OnInit {
     return _result_;
   }
 
+  public minValidator(_minOptions_) {
+    let _result_ = true;
+    const value = +this._value;
+    if (value < _minOptions_["value"]) {
+      _result_ = false;
+      this._errorText = _minOptions_.message;
+    }
+    return _result_;
+  }
+
   public sizeValidator(_sizeOptions_) {
     let _result_ = true;
-
     _result_ = this.stringMinLength(_sizeOptions_, _result_);
     _result_ = this.stringMaxLength(_sizeOptions_, _result_);
 

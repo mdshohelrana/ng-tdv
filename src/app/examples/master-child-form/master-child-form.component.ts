@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from './Product.model';
-
+import { Product, products, countries } from './Product.model';
 @Component({
   selector: 'demo-master-child-form',
   templateUrl: './master-child-form.component.html',
@@ -8,64 +7,61 @@ import { Product } from './Product.model';
 })
 export class MasterChildFormComponent implements OnInit {
 
-  private productList: Product[] = new Array();
+  public cartList: Product[] = new Array();
+  public productList = products;
+  public countryList = countries;
 
-  private customerOptions: any = {
-    "name": {
-      'size': {
-        'min': 3,
-        'max': 20,
-        'message': 'Customer Name is required to be between 3 and 20 characters.'
-      },
-      "required": {
-        "message": "Customer Name required",
+  public customerOptions: any = {
+    name: {
+      required: {
+        message: "Customer Name required",
       },
     },
-    "mobileNumber": {
-      'size': {
-        'min': 11,
-        'max': 11,
-        'message': 'Customer Name is should to be 11 characters.'
+    mobileNumber: {
+      size: {
+        min: 11,
+        max: 11,
+        message: 'Customer Name is should to be 11 characters.'
       },
-      "required": {
-        "message": "Mobile Number required",
-      },
-    },
-    "address": {
-      "required": {
-        "message": "Address required",
+      required: {
+        message: "Mobile Number required",
       },
     },
-    "country": {
-      "required": {
-        "message": "Country required",
-      },
-      'range': {
-        'value': '5,20',
-        'message': 'Country should between Angola & Bhutan.'
+    address: {
+      required: {
+        message: "Address required",
       },
     },
-    "productName": {
-      "required": {
-        "message": "Product Name required",
+    country: {
+      required: {
+        message: "Country required",
+      },
+      range: {
+        value: '5,20',
+        message: 'Country should between Angola & Bhutan.'
       },
     },
-    "productPrice": {
-      "required": {
-        "message": "Product Price required",
+    productId: {
+      required: {
+        message: "Product required",
       },
     },
-    "productQuantity": {
-      "custom": ()=> {
-        return true;
+    productPrice: {
+      min: {
+        value: 1,
+        message: 'Product Price required'
       },
-      "required": {
-        "message": "Product Quantity required",
+      required: {
+        message: "Product Price required",
       },
     },
-    "total": {
-      "required": {
-        "message": "total required",
+    productQuantity: {
+      min: {
+        value: 1,
+        message: 'Product Quantity required'
+      },
+      required: {
+        message: "Product Quantity required",
       },
     },
     message: "tooltip"
@@ -74,31 +70,41 @@ export class MasterChildFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.cartList.push(new Product());
   }
 
-  addNewProduct(form) {
-    console.log(form);
-    
+  onChangeProduct(product:Product) {
+    const selectedItem = this.productList.find(
+      (item)=> {
+          return item.id==product.productId}
+        );
+    product.productPrice = selectedItem.price;
+    product.productQuantity = 1;
+    product.total = product.productPrice*product.productQuantity;
+  }
+
+  removeProduct(index) {
+    this.cartList.splice(index, 1);
+  }
+
+  addNewProduct(form) {    
     let _validationResult = form.validate();
     if(_validationResult.isValid) {
-      this.productList.push(new Product());
+      this.cartList.push(new Product());
     }
-    console.log(_validationResult);
   }
+
   addProduct(form) {
     let _validationResult = form.validate();
     if(_validationResult.isValid) {
-      this.productList.push(new Product());
+      this.cartList.push(new Product());
     }
-    console.log(_validationResult);
   }
   saveCustomer(form) {
     let _validationResult = form.validate();
-    console.log(_validationResult);
   }
   resetCustomer(form) {
     let _validationResult = form.reset();
-    console.log(_validationResult);
   }
 
 }
