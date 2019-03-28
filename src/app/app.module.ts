@@ -8,8 +8,6 @@ import { PrismModule } from '@ngx-prism/core';
 import { AppComponent } from './app.component';
 import { LayoutHeaderComponent } from './layout/header.component';
 import { LayoutSidenavComponent } from './layout/sidenav-component';
-import { SimpleFormComponent } from './examples/simple-form/simple-form.component';
-import { MasterChildFormComponent } from './examples/master-child-form/master-child-form.component';
 import { NgTdvDirective, NgTdvClickDirective } from 'projects/ng-tdv/src/public-api';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -18,9 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [
     AppComponent,
     LayoutHeaderComponent,
-    LayoutSidenavComponent,
-    SimpleFormComponent,
-    MasterChildFormComponent,
+    LayoutSidenavComponent,   
     NgTdvDirective,
     NgTdvClickDirective
   ],

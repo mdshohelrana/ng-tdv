@@ -15,6 +15,10 @@ export const routes: Routes = [
 ];
 
 @NgModule({
+  declarations: [
+    SimpleFormComponent
+    , MasterChildFormComponent    
+  ],
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
