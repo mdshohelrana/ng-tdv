@@ -9,8 +9,16 @@ export const routes: Routes = [{
   redirectTo: '/simple-form',
   pathMatch: 'full'
 },
-{ path: 'simple-form', component: SimpleFormComponent, data: { title: 'Simple Example', fileName: 'simple-form.component.ts', folderName: 'simple-form' } },
-{ path: 'master-child-form', component: MasterChildFormComponent, data: { title: 'Master Child Example', fileName: 'simple-form.component.ts', folderName: 'master-child-form' } },
+{
+  path: 'simple-form',
+  component: SimpleFormComponent,
+  data: { title: 'Simple Example', fileName: 'simple-form.component.ts', folderName: 'simple-form' }
+},
+{
+  path: 'master-child-form',
+  component: MasterChildFormComponent,
+  data: { title: 'Master Child Example', fileName: 'simple-form.component.ts', folderName: 'master-child-form' }
+},
 ];
 
 @NgModule({
