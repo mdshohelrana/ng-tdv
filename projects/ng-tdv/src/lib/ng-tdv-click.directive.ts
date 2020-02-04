@@ -58,7 +58,7 @@ export class NgTdvClickDirective {
 
   public getContols(_ngForm_: any) {
     let resultControls = new Array();
-    let excludeKeys = (this.excludeText) ? this.excludeText.split(',') : [];
+    const excludeKeys = (this.excludeText) ? this.excludeText.split(',') : [];
     Object.keys(_ngForm_.controls).map(_key_ => {
       if (_ngForm_.controls[_key_] instanceof FormControl) {
         resultControls.push(_ngForm_.controls[_key_])
