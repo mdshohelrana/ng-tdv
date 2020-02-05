@@ -1,15 +1,12 @@
 import { Directive, SimpleChanges, OnChanges, OnInit, Injector, ElementRef, Input, Renderer2, HostListener } from '@angular/core';
 import { NgModel } from '@angular/forms';
-import { __values } from 'tslib';
 
 @Directive({
-  selector: '[ng-tdv]'
+  selector: '[ngTdv]'
 })
 export class NgTdvDirective implements OnChanges, OnInit {
-
-  /** NgModel for getting changes */
-  @Input("ngModel") _model: NgModel;
-  @Input("ng-tdv") _validationKey: string;
+  @Input("ngModel") public _model: NgModel;
+  @Input("ngTdv") public _validationKey: string;
 
   public _option: any;
   public _valid: boolean = true;
