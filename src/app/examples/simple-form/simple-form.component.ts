@@ -156,7 +156,7 @@ export class SimpleFormComponent implements OnInit {
     message: "tooltip"
   }
   `;
-  public valHtml = `<form novalidate ng-tdv-option="employeeOptions">
+  public valHtml = `<form novalidate ngTdvOption="employeeOptions">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="nameField">Name (required)</label>
@@ -202,8 +202,8 @@ export class SimpleFormComponent implements OnInit {
       </label>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary mr-1"  (ng-tdv-click)="onSubmitForm($event)" >Save</button>
-  <button type="button" class="btn btn-warning"  (ng-tdv-click)="onFormReset($event)" >Reset</button>
+  <button type="submit" class="btn btn-primary mr-1"  (ngTdvClick)="onSubmitForm($event)" >Save</button>
+  <button type="button" class="btn btn-warning"  (ngTdvClick)="onFormReset($event)" >Reset</button>
 </form>
   `;
 

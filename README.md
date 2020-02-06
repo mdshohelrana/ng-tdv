@@ -34,6 +34,8 @@ This is a domain model centric approach to angular template-driven validation Le
 
 View all the ng-tdv directives in action at https://stackblitz.com/edit/ng-tdv
 
+![Preview](https://raw.githubusercontent.com/mdshohelrana/ng-tdv/develop/demo.gif "Preview")
+
 ## Versions
 
 | Angular| ng-tdv|

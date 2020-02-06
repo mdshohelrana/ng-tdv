@@ -1,12 +1,22 @@
 import { Directive, SimpleChanges, OnChanges, OnInit, Injector, ElementRef, Input, Renderer2, HostListener } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { NgTdvConfig } from './ng-tdv-config.service';
+import { NgTdvError } from './ng-tdv-error.model';
+import { NgTdvValidationKeyCode } from './ng-tdv-validation-key-code';
+import { isDefined } from './value-utils'
+
+const NG_TDV_OPTION: string = 'ngTdvOption';
 
 @Directive({
   selector: '[ngTdv]'
 })
 export class NgTdvDirective implements OnChanges, OnInit {
-  @Input("ngModel") public _model: NgModel;
-  @Input("ngTdv") public _validationKey: string;
+  @Input('ngModel') public ngModel: NgModel;
+  @Input('ngTdv') public ngTdv: string;
+
+  private defaultErrorMessage: string;
+  private invalidEmailMessage: string;
+  private invalidPatternMessage: string;
 
   public _option: any;
   public _valid: boolean = true;
@@ -15,17 +25,18 @@ export class NgTdvDirective implements OnChanges, OnInit {
   private _value: any;
   public _div: any;
   public _tooltipDiv: any;
-  public _errorText: string = "";
-  public _defaultErrorText: string = "This field is required";
+  public _errorText: string = '';
 
-  public _result = { fieldName: "", isValid: true, validationSummary: "" };
+  public _result: NgTdvError = { fieldName: '', isValid: true, message: '' };
 
   constructor(
     public _injector: Injector,
     public _el: ElementRef,
     public renderer: Renderer2,
-    public _modelObj: NgModel
+    public _modelObj: NgModel,
+    public config: NgTdvConfig
   ) {
+    this.mergeGlobalConfig(config);
     this._modelObj.control['ngTdvValidator'] = this;
     this._div = this.renderer.createElement("div");
     this._tooltipDiv = this.renderer.createElement("div");
@@ -35,8 +46,8 @@ export class NgTdvDirective implements OnChanges, OnInit {
   }
 
   public ngOnChanges(_changes_: SimpleChanges): void {
-    this._value = _changes_._model.currentValue;
-    if (!_changes_._model.firstChange) {
+    this._value = _changes_.ngModel.currentValue;
+    if (!_changes_.ngModel.firstChange) {
       this.validator();
     }
     else {
@@ -46,59 +57,53 @@ export class NgTdvDirective implements OnChanges, OnInit {
 
   public prepareValidationMsgs() {
     try {
-      // Get validatoion option's object string from ***Form*** & get the object for this element
-      let _validateOption_ = this._el.nativeElement.closest("form").getAttribute("ng-tdv-option");
-      this._option = this._injector["view"].component[_validateOption_][this._validationKey];
+      let _validateOption_ = this._el.nativeElement.closest("form").getAttribute(NG_TDV_OPTION);
+      this._option = this._injector["view"].component[_validateOption_][this.ngTdv];
     } catch (error) {
       this._option = null;
     }
     this.decorateElement();
   }
 
-  public _isUndefinedOrNull(): boolean {
-    return (this._option === undefined || this._option === null);
-  }
-
   public validator() {
     this.callValidation();
-
   }
 
   public callValidation(): any {
     this._errorText = "";
     this._valid = true;
     const _element_ = this._el.nativeElement;
-    if (!this._isUndefinedOrNull()) {
+    if (isDefined(this._option)) {
       if (this._value !== undefined && this._value !== null && this._value.toString().length > 0) {
-        if (this.isEmail(_element_) || this._option.hasOwnProperty("email")) {
-          this._valid = (this._valid && this.validateEmail(this._option["email"]));
+        if (this.isEmail(_element_) || this._option.hasOwnProperty(NgTdvValidationKeyCode.EMAIL)) {
+          this._valid = (this._valid && this.validateEmail(this._option[NgTdvValidationKeyCode.EMAIL]));
         }
-        if (this._option.hasOwnProperty("min")) {
-          this._valid = (this._valid && this.minValidator(this._option["min"]));
+        if (this._option.hasOwnProperty(NgTdvValidationKeyCode.MIN)) {
+          this._valid = (this._valid && this.minValidator(this._option[NgTdvValidationKeyCode.MIN]));
         }
-        if (this._option.hasOwnProperty("size")) {
-          this._valid = (this._valid && this.sizeValidator(this._option["size"]));
+        if (this._option.hasOwnProperty(NgTdvValidationKeyCode.SIZE)) {
+          this._valid = (this._valid && this.sizeValidator(this._option[NgTdvValidationKeyCode.SIZE]));
         }
-        if (this._option.hasOwnProperty("range")) {
-          this._valid = (this._valid && this.rangeValidator(this._option["range"]));
+        if (this._option.hasOwnProperty(NgTdvValidationKeyCode.RANGE)) {
+          this._valid = (this._valid && this.rangeValidator(this._option[NgTdvValidationKeyCode.RANGE]));
         }
-        if (this._option.hasOwnProperty("pattern")) {
-          this._valid = (this._valid && this.patternValidator(this._option["pattern"]));
+        if (this._option.hasOwnProperty(NgTdvValidationKeyCode.PATTERN)) {
+          this._valid = (this._valid && this.patternValidator(this._option[NgTdvValidationKeyCode.PATTERN]));
         }
       }
-      else if (this._option.hasOwnProperty("required")) {
-        this._valid = (this._valid && this.requiredValidator(this._option["required"]));
+      else if (this._option.hasOwnProperty(NgTdvValidationKeyCode.REQUIRED)) {
+        this._valid = (this._valid && this.requiredValidator(this._option[NgTdvValidationKeyCode.REQUIRED]));
       }
-      if (this._option.hasOwnProperty("custom")) {
-        this._valid = (this._valid && this.customValidator(this._option["custom"]));
+      if (this._option.hasOwnProperty(NgTdvValidationKeyCode.CUSTOM)) {
+        this._valid = (this._valid && this.customValidator(this._option[NgTdvValidationKeyCode.CUSTOM]));
 
       }
 
       this.setValidity();
     }
-    this._result.fieldName = this._validationKey;
+    this._result.fieldName = this.ngTdv;
     this._result.isValid = this._valid;
-    this._result.validationSummary = this._errorText;
+    this._result.message = this._errorText;
     return this._result;
   }
 
@@ -164,7 +169,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
     this.renderer.addClass(arrowDiv, "arrow");
     this.renderer.setStyle(arrowDiv, "left", "50%");
     this.renderer.setStyle(arrowDiv, "transform", "translateX(-50%)");
-    const tooltipText = (this._errorText) ? this._errorText : this._defaultErrorText;
+    const tooltipText = (this._errorText) ? this._errorText : this.defaultErrorMessage;
     this.renderer.addClass(this._tooltipDiv, "tooltip-inner");
     this.renderer.setProperty(this._tooltipDiv, "innerText", tooltipText);
     this.renderer.appendChild(this._div, arrowDiv);
@@ -191,7 +196,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
   public callGridValidationGrps() { }
 
   public isEmail(element) {
-    return element['type'] === 'email';
+    return element['type'] === NgTdvValidationKeyCode.EMAIL;
   }
 
   public isInput(element) {
@@ -199,7 +204,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
   }
 
   public stringMinLength(sizeOptions, result) {
-    if (sizeOptions.hasOwnProperty("min") && (this._value.toString().length < sizeOptions["min"])) {
+    if (sizeOptions.hasOwnProperty(NgTdvValidationKeyCode.MIN) && (this._value.toString().length < sizeOptions[NgTdvValidationKeyCode.MIN])) {
       result = false;
       this._errorText = sizeOptions.message;
     }
@@ -207,7 +212,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
   }
 
   public stringMaxLength(sizeOptions, result) {
-    if (sizeOptions.hasOwnProperty("max") && (this._value.toString().length > sizeOptions["max"])) {
+    if (sizeOptions.hasOwnProperty(NgTdvValidationKeyCode.MAX) && (this._value.toString().length > sizeOptions[NgTdvValidationKeyCode.MAX])) {
       result = false;
       this._errorText = sizeOptions.message;
     }
@@ -220,7 +225,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
     var patt = new RegExp(re);
     result = patt.test(this._value);
     if (!result) {
-      this._errorText = _emailOptions.hasOwnProperty("message") ? _emailOptions.message : "Not a valid email";
+      this._errorText = _emailOptions.hasOwnProperty("message") ? _emailOptions.message : this.invalidEmailMessage;
     }
     return result;
   }
@@ -294,7 +299,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
     let patt = new RegExp(_pattern_, "g");
     const result = patt.test(this._value);
     if (!result) {
-      this._errorText = _patternOptions.hasOwnProperty("message") ? _patternOptions.message : "Doesn't match!";
+      this._errorText = _patternOptions.hasOwnProperty("message") ? _patternOptions.message : this.invalidPatternMessage;
     }
     return result;
   }
@@ -303,7 +308,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
     const fn: Function = _validationOptions.method;
     const result = fn();
     if (!result) {
-      this._errorText = _validationOptions.hasOwnProperty("message") ? _validationOptions.message : this._defaultErrorText;
+      this._errorText = _validationOptions.hasOwnProperty("message") ? _validationOptions.message : this.defaultErrorMessage;
     }
     return result;
   }
@@ -314,9 +319,14 @@ export class NgTdvDirective implements OnChanges, OnInit {
     }
     else {
       result = false;
-      this._errorText = requiredOptions.hasOwnProperty("message") ? requiredOptions.message : this._defaultErrorText;
+      this._errorText = requiredOptions.hasOwnProperty("message") ? requiredOptions.message : this.defaultErrorMessage;
     }
     return result
   }
-}
 
+  private mergeGlobalConfig(config: NgTdvConfig) {
+    this.defaultErrorMessage = this.defaultErrorMessage || config.defaultErrorMessage;
+    this.invalidEmailMessage = this.invalidEmailMessage || config.invalidEmailMessage;
+    this.invalidPatternMessage = this.invalidPatternMessage || config.invalidPatternMessage;
+  }
+}
