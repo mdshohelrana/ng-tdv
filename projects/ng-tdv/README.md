@@ -38,7 +38,7 @@ View all the ng-tdv directives in action at https://stackblitz.com/edit/ng-tdv
 
 | Angular| ng-tdv|
 | ------|:------:| 
-| v7.x  | v0.x |
+| v8.x  | v0.x |
 
 ## Why ng-tdv
 

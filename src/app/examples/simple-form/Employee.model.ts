@@ -1,16 +1,16 @@
 export class Employee {
-    public name:string;
-    public email:string;
-    public password:string;
-    public url:string;
-    public tel:string;
-    public date:string;
-    public time:string;
-    public dateTime:string;
-    public gender:string;
-    public address:string;
+    public name: string;
+    public email: string;
+    public password: string;
+    public url: string;
+    public tel: string;
+    public date: string;
+    public time: string;
+    public dateTime: string;
+    public gender: string;
+    public address: string;
 
-    constructor( options: any = {} ) {
+    constructor(options: any = {}) {
         this.name = options.name;
         this.email = options.email;
         this.password = options.password;
