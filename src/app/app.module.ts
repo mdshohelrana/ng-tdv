@@ -1,13 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { PrismModule } from '@ngx-prism/core';
-
 import { AppComponent } from './app.component';
 import { LayoutHeaderComponent } from './layout/header.component';
 import { LayoutSidenavComponent } from './layout/sidenav-component';
-import { NgTdvDirective, NgTdvClickDirective } from 'projects/ng-tdv/src/public-api';
+import { NgTdvModule } from 'projects/ng-tdv/src/public-api';
 import { AppRoutingModule } from './app-routing.module';
 import { SimpleFormComponent } from './examples/simple-form/simple-form.component';
 import { MasterChildFormComponent } from './examples/master-child-form/master-child-form.component';
@@ -19,15 +17,14 @@ import { MasterChildFormComponent } from './examples/master-child-form/master-ch
     LayoutHeaderComponent,
     LayoutSidenavComponent,
     SimpleFormComponent,
-    MasterChildFormComponent,
-    NgTdvDirective,
-    NgTdvClickDirective
+    MasterChildFormComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     PrismModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgTdvModule
   ],
   providers: [],
   bootstrap: [AppComponent]

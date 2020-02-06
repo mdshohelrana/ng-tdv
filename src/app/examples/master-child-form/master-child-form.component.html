@@ -2,30 +2,30 @@
   <div class="col-md-12">
       <h5>Master Child Form</h5>
       <hr/>
-    <form novalidate ng-tdv-option="customerOptions">
+    <form novalidate ngTdvOption="customerOptions">
       <div class="row">
         <div class="col-md-3">
           <div class="form-group">
             <label for="customer-name">Customer Name</label>
-            <input id="customer-name" name="customer-name" ng-tdv="name" [(ngModel)]="customerName" type="text" class="form-control" value="">
+            <input id="customer-name" name="customer-name" ngTdv="name" [(ngModel)]="customerName" type="text" class="form-control" value="">
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label for="customer-mobile-number">Mobile Number</label>
-            <input id="customer-mobile-number" name="customer-mobile-number" ng-tdv="mobileNumber" [(ngModel)]="customerMobileNumber" type="text" class="form-control" value="">
+            <input id="customer-mobile-number" name="customer-mobile-number" ngTdv="mobileNumber" [(ngModel)]="customerMobileNumber" type="text" class="form-control" value="">
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label for="customer-address">Address</label>
-            <input id="customer-address" name="customer-address" ng-tdv="address" [(ngModel)]="customerAddress" type="text" class="form-control" value="">
+            <input id="customer-address" name="customer-address" ngTdv="address" [(ngModel)]="customerAddress" type="text" class="form-control" value="">
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label for="customer-country">Country</label>
-            <select id="customer-country" name="customer-country" ng-tdv="country" [(ngModel)]="customerCountry" class="form-control">
+            <select id="customer-country" name="customer-country" ngTdv="country" [(ngModel)]="customerCountry" class="form-control">
               <option [value]="null">Select</option>
               <option *ngFor="let item of countryList;trackBy:trackByFn;" [value]="item.id">{{item.text}}</option>
             </select>
@@ -37,7 +37,7 @@
         <div class="d-flex align-items-center">
           <h4>Product Entry</h4>
           <div class="ml-1">
-              <button type="button" class="btn btn-primary btn-sm" group="productGroup" (ng-tdv-click)="addProduct($event)">Add New</button>
+              <button type="button" class="btn btn-primary btn-sm" group="productGroup" (ngTdvClick)="addProduct($event)">Add New</button>
           </div>
         </div>
         <table class="table table-striped table-bordered table-condensed">
@@ -56,25 +56,25 @@
                   <tr ngModelGroup="productGroup-{{i}}">
                     <td class="p-0 position-relative text-center">{{i+1}}</td>
                     <td class="p-0 position-relative">
-                      <select (change)="onChangeProduct(product)" class="form-control" name="productId-{{i}}" ng-tdv="productId" [(ngModel)]="product.productId">
+                      <select (change)="onChangeProduct(product)" class="form-control" name="productId-{{i}}" ngTdv="productId" [(ngModel)]="product.productId">
                         <option [value]="null">Select</option>
                         <option *ngFor="let item of productList;trackBy:trackByFn;" [value]="item.id">{{item.name}}</option>
                       </select>
                     </td>
-                    <td class="p-0 position-relative"><input type="text"  class="text-right form-control" name="productPrice-{{i}}" ng-tdv="productPrice" [(ngModel)]="product.productPrice"></td>
-                    <td class="p-0 position-relative"><input type="text" class="form-control text-right" name="productQuantity-{{i}}" ng-tdv="productQuantity" [(ngModel)]="product.productQuantity"></td>
+                    <td class="p-0 position-relative"><input type="text"  class="text-right form-control" name="productPrice-{{i}}" ngTdv="productPrice" [(ngModel)]="product.productPrice"></td>
+                    <td class="p-0 position-relative"><input type="text" class="form-control text-right" name="productQuantity-{{i}}" ngTdv="productQuantity" [(ngModel)]="product.productQuantity"></td>
                     <td class="p-0 position-relative"><input type="text" class="text-right form-control" name="total-{{i}}" value="{{product.total | number}}" [readonly]="true"></td>
                     <td class="text-center p-0">
                       <button style="padding:1px 5px;" type="button" class="btn btn-danger btn-sm" (click)="removeProduct(index)"><i class="fa fa-times"></i></button>
-                      <button style="padding:1px 5px;" *ngIf="isLast" type="button" class="btn btn-success ml-1 btn-sm" group="productGroup-{{i}}" (ng-tdv-click)="addNewProduct($event)"><i class="fa fa-plus"></i></button>
+                      <button style="padding:1px 5px;" *ngIf="isLast" type="button" class="btn btn-success ml-1 btn-sm" group="productGroup-{{i}}" (ngTdvClick)="addNewProduct($event)"><i class="fa fa-plus"></i></button>
                     </td>
                   </tr>
               </ng-container>
           </tbody>
         </table>
         
-        <button type="button" class="btn btn-primary mr-1" (ng-tdv-click)="saveCustomer($event)">Save</button>
-        <button type="button" class="btn btn-warning" (ng-tdv-click)="resetCustomer($event)">Reset</button>
+        <button type="button" class="btn btn-primary mr-1" (ngTdvClick)="saveCustomer($event)">Save</button>
+        <button type="button" class="btn btn-warning" (ngTdvClick)="resetCustomer($event)">Reset</button>
       </div>
 
     </form>
