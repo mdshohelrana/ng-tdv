@@ -1,4 +1,4 @@
-export enum NgTdvValidationKeyCode {
+export enum NgTdvValidatorKeyCode {
     REQUIRED = 'required',
     EMAIL = 'email',
     MIN = 'min',
