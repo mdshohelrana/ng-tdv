@@ -1,105 +1,109 @@
 import { Directive, HostListener, ElementRef, Injector, EventEmitter, Output, Input } from '@angular/core';
 import { NgTdvDirective } from './ng-tdv.directive';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
-
-const _DEFAULT_RESULT = { isValid: true, validationSummaryMsgs: [] };
+import { NgTdvResult } from './ng-tdv-error.model';
 
 @Directive({
   selector: '[ngTdvClick]'
 })
 export class NgTdvClickDirective {
+  private ngTdvResult: NgTdvResult;
 
   @Input('not') excludeText: string;
   @Input('group') groupText: string;
-  @Output('ngTdvClick') _validateEvent: EventEmitter<any> = new EventEmitter();
+  @Output('ngTdvClick') ngTdvClicked: EventEmitter<any> = new EventEmitter();
 
-  private validationResult = _DEFAULT_RESULT;
-
-  constructor(private _el: ElementRef, private _injector: Injector, private _ngForm: NgForm) { }
+  constructor(private _el: ElementRef,
+    private _injector: Injector,
+    private ngForm: NgForm) { }
 
   @HostListener('click', ['$event'])
-  private onClick(event) {
-    // this._ngForm.form.markAsPristine({});
-    // console.log(this._ngForm);
-    // console.log(this.excludeText);
-    // console.log(this.groupText);
+  private onClick(e: any) {
+    e['validate'] = () => { return this.validate() };
+    e['reset'] = () => { return this.reset() };
 
-    event['validate'] = () => { return this.validate() };
-    event['reset'] = () => { return this.reset() };
-    this._validateEvent.emit(event);
+    this.ngTdvClicked.emit(e);
   }
 
-  public validate() {
-    this.validationResult["validationSummaryMsgs"].length = 0;
-    this.validationResult.isValid = true;
-    let maps;
+  private validate() {
+    this.ngTdvResult.errors.length = 0;
+    this.ngTdvResult.valid = true;
+
+    let maps: string | any[];
     if (this.groupText !== undefined) {
-      maps = this.getContols(this.findFormGroup(this._ngForm));
+      maps = this.getControls(this.findFormGroup(this.ngForm));
     } else {
-      maps = this.getContols(this._ngForm);
+      maps = this.getControls(this.ngForm);
     }
-    // console.log(maps);
+
     for (let index = 0; index < maps.length; index++) {
       if (maps[index].hasOwnProperty("ngTdvValidator")) {
-        const _result_ = maps[index]['ngTdvValidator'].callValidation();
-        if (!_result_.isValid) {
-          this.validationResult["validationSummaryMsgs"].push(_result_);
-          this.validationResult.isValid = false;
+        const result = maps[index]['ngTdvValidator'].callValidation();
+        if (!result.isValid) {
+          this.ngTdvResult.errors.push(result);
+          this.ngTdvResult.valid = false;
         }
       }
     }
-    return this.validationResult;
+
+    return this.ngTdvResult;
   }
 
-  public getContols(_ngForm_: any) {
+  private getControls(ngForm: any) {
     let resultControls = new Array();
     const excludeKeys = (this.excludeText) ? this.excludeText.split(',') : [];
-    Object.keys(_ngForm_.controls).map(_key_ => {
-      if (_ngForm_.controls[_key_] instanceof FormControl) {
-        resultControls.push(_ngForm_.controls[_key_])
+
+    Object.keys(ngForm.controls).map(key => {
+      if (ngForm.controls[key] instanceof FormControl) {
+        resultControls.push(ngForm.controls[key])
       }
-      if (_ngForm_.controls[_key_] instanceof FormGroup) {
-        if (!excludeKeys.includes(_key_)) {
-          resultControls = resultControls.concat(this.getContols(_ngForm_.controls[_key_]))
+
+      if (ngForm.controls[key] instanceof FormGroup) {
+        if (!excludeKeys.includes(key)) {
+          resultControls = resultControls.concat(this.getControls(ngForm.controls[key]))
         }
       }
     });
+
     return resultControls;
   }
 
-  public findFormGroup(_ngForm_: any) {
-    let _fromGroup_ = null;
-    let _formGroupKeys_ = Object.keys(_ngForm_.controls).filter(_key_ => {
-      return _ngForm_.controls[_key_] instanceof FormGroup
+  public findFormGroup(ngForm: any) {
+    let fromGroup = null;
+    let formGroupKeys = Object.keys(ngForm.controls).filter(key => {
+      return ngForm.controls[key] instanceof FormGroup
     });
 
-    if (_formGroupKeys_.includes(this.groupText)) {
-      _fromGroup_ = _ngForm_.controls[this.groupText];
+    if (formGroupKeys.includes(this.groupText)) {
+      fromGroup = ngForm.controls[this.groupText];
     }
     else {
-      for (let index = 0; index < _formGroupKeys_.length; index++) {
-        _fromGroup_ = this.findFormGroup(_ngForm_.controls[_formGroupKeys_[index]]);
-        if (_fromGroup_ !== null) {
+      for (let index = 0; index < formGroupKeys.length; index++) {
+        fromGroup = this.findFormGroup(ngForm.controls[formGroupKeys[index]]);
+        if (fromGroup !== null) {
           break;
         }
       }
     }
-    return _fromGroup_;
+
+    return fromGroup;
   }
 
-  public reset() {
-    this.validationResult["validationSummaryMsgs"].length = 0;
-    this.validationResult.isValid = true;
-    let maps;
+  private reset() {
+    this.ngTdvResult.errors.length = 0;
+    this.ngTdvResult.valid = true;
+
+    let maps: string | any[];
     if (this.groupText !== undefined) {
-      maps = this.getContols(this.findFormGroup(this._ngForm));
+      maps = this.getControls(this.findFormGroup(this.ngForm));
     } else {
-      maps = this.getContols(this._ngForm);
+      maps = this.getControls(this.ngForm);
     }
+
     for (let index = 0; index < maps.length; index++) {
       maps[index]['ngTdvValidator'].resetValidation();
     }
-    return this.validationResult;
-  }
 
+    return this.ngTdvResult;
+  }
 }

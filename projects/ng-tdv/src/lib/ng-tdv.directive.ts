@@ -27,7 +27,7 @@ export class NgTdvDirective implements OnChanges, OnInit {
   public _div: any;
   public _tooltipDiv: any;
 
-  public _result: NgTdvError = { fieldName: '', isValid: true, message: '' };
+  public ngTdvError: NgTdvError = { fieldName: '', valid: true, message: '' };
 
   constructor(
     public _injector: Injector,
@@ -103,10 +103,10 @@ export class NgTdvDirective implements OnChanges, OnInit {
       this.setValidity();
     }
 
-    this._result.fieldName = this.ngTdv;
-    this._result.isValid = this._valid;
-    this._result.message = this.errorMessage;
-    return this._result;
+    this.ngTdvError.fieldName = this.ngTdv;
+    this.ngTdvError.valid = this._valid;
+    this.ngTdvError.message = this.errorMessage;
+    return this.ngTdvError;
   }
 
   public resetValidation() {
