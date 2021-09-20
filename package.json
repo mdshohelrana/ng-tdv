@@ -25,7 +25,7 @@
     "core-js": "^3.6.4",
     "font-awesome": "^4.7.0",
     "lodash-es": "^4.17.11",
-    "prismjs": "^1.9.0",
+    "prismjs": "^1.25.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.9.0",
     "zone.js": "~0.10.2"
